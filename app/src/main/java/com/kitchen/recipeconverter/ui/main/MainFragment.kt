@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
@@ -17,7 +17,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,31 +30,31 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var topUnit = ""
-        var bottomUnit = ""
-        var ingredient = ""
 
         fun makeReturnText(){
-            binding.resultText.text = "From "+ topUnit +" To "+ bottomUnit
+            viewModel.entryAmount = binding.topQuantityText.text.toString()
+            binding.resultText.text = viewModel.displayResults()
         }
 
-        val ingredients = listOf<String>("Flour", "Sugar", "Vegetable Oil", "Salt")
         val units = resources.getStringArray(R.array.unit_choices)
         val menuAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, units)
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.recyclerView.adapter = IngredientAdapter(ingredients)
+        binding.recyclerView.adapter = IngredientAdapter(viewModel.ingredientList) {
+            viewModel.selectedIngredient = it
+            makeReturnText()
+        }
         binding.topAutoCompleteTextView.setAdapter(menuAdapter)
         binding.bottomAutoCompleteTextView.setAdapter(menuAdapter)
 
 //        binding.topAutoCompleteTextView.setOnItemClickListener
         binding.topAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
-             topUnit = binding.topAutoCompleteTextView.text.toString()
+             viewModel.selectedConvertFrom = binding.topAutoCompleteTextView.text.toString()
             makeReturnText()
         }
         binding.bottomAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
-            bottomUnit = binding.bottomAutoCompleteTextView.text.toString()
+            viewModel.selectedConvertTo = binding.bottomAutoCompleteTextView.text.toString()
             makeReturnText()
         }
 

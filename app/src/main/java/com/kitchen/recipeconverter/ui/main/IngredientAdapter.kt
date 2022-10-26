@@ -8,10 +8,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
+import com.kitchen.recipeconverter.data.Ingredient
 
-class IngredientAdapter( private val ingredientList: List<String>) :
+class IngredientAdapter( private val ingredientList: List<Ingredient>,
+                         private val onItemClicked: (Ingredient)->Unit) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
-    private var selectedItemPosition: Int = 0
+    private var selectedItemPosition: Int? = null
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.ingredient_text_view)
@@ -25,8 +27,9 @@ class IngredientAdapter( private val ingredientList: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = ingredientList[position]
+        holder.textView.text = ingredientList[position].name
         holder.itemView.setOnClickListener {
+            onItemClicked(ingredientList[holder.adapterPosition])
             selectedItemPosition = holder.adapterPosition
             notifyDataSetChanged()
         }

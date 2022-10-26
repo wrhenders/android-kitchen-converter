@@ -18,7 +18,7 @@
         android:id="@+id/topCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         app:cardElevation="4dp"
         app:cardCornerRadius="4dp"
         app:layout_constraintTop_toTopOf="parent">
@@ -79,8 +79,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/recyclerCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_height="240dp"
+        android:layout_margin="8dp"
         app:cardElevation="4dp"
         app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,7 +96,7 @@
             android:id="@+id/bottomCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="4dp"
             app:layout_constraintTop_toBottomOf="@id/recycler_view">
@@ -154,7 +154,7 @@
             android:id="@+id/resultsCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="4dp"
             app:layout_constraintTop_toBottomOf="@id/bottomCardView">
