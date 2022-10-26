@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RecipeConverter</string>
+    <string-array name="unit_choices">
+        <item>Grams</item>
+        <item>Cups</item>
+        <item>Tablespoons</item>
+        <item>Teaspoons</item>
+    </string-array>
+</resources>
