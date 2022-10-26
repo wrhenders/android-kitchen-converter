@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,7 @@ class MainFragment : Fragment() {
 
         fun makeReturnText(){
             viewModel.entryAmount = binding.topQuantityText.text.toString()
-            binding.resultText.text = viewModel.displayResults()
+            binding.bottomQuantityText.setText(viewModel.displayResults(), TextView.BufferType.SPANNABLE)
         }
 
         val units = resources.getStringArray(R.array.unit_choices)
@@ -48,7 +49,6 @@ class MainFragment : Fragment() {
         binding.topAutoCompleteTextView.setAdapter(menuAdapter)
         binding.bottomAutoCompleteTextView.setAdapter(menuAdapter)
 
-//        binding.topAutoCompleteTextView.setOnItemClickListener
         binding.topAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
              viewModel.selectedConvertFrom = binding.topAutoCompleteTextView.text.toString()
             makeReturnText()

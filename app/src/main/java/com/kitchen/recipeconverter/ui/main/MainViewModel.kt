@@ -18,17 +18,12 @@ class MainViewModel : ViewModel() {
     var selectedConvertTo: String? = null
     var entryAmount: String? = null
 
-    private fun teaspoonToCups(quantity: Double): Double = quantity / 48
-    private fun tablespoonToCups(quantity: Double): Double = quantity / 16
-
-    private fun cupsToGrams(quantity: Double, weightConversion: Double): Double = quantity * weightConversion
-
     fun displayResults(): String {
         if(selectedIngredient != null &&
             selectedConvertFrom!= null &&
             selectedConvertTo!= null){
             val multiplier = conversionType(selectedConvertFrom!!, selectedConvertTo!!, selectedIngredient!!)
-            return "${((entryAmount?.toDouble() ?: 1.0) * multiplier).toString()} $selectedConvertTo"
+            return "${((entryAmount?.toDouble() ?: 1.0) * multiplier).toString()}"
         } else {
             return ""
         }
@@ -40,33 +35,33 @@ class MainViewModel : ViewModel() {
             "Cups"-> {
                 when (convertTo) {
                     "Grams" -> return ingredient.weightConversion
-                    "Teaspoons" -> return (1.0/48)
-                    "Tablespoons" -> return (1.0/16)
+                    "Teaspoons" -> return 48.0
+                    "Tablespoons" -> return 16.0
                     "Cups" -> return 1.0
                 }
             }
             "Teaspoons" -> {
                 when (convertTo) {
                     "Grams" -> return ingredient.weightConversion/48
-                    "Cups" -> return 48.0
-                    "Tablespoons" -> return 3.0
+                    "Cups" -> return (1.0/48)
+                    "Tablespoons" -> return (1.0/3)
                     "Teaspoons" -> return 1.0
                 }
             }
             "Tablespoons" -> {
                 when (convertTo) {
                     "Grams" -> return ingredient.weightConversion/16
-                    "Cups" -> return 16.0
+                    "Cups" -> return (1.0/16)
                     "Tablespoons" -> return 1.0
-                    "Teaspoons" -> return (1.0/3)
+                    "Teaspoons" -> return 3.0
                 }
             }
             "Grams" -> {
                 when (convertTo) {
                     "Grams" -> return 1.0
-                    "Cups" -> return ingredient.weightConversion
-                    "Tablespoons" -> return ingredient.weightConversion/16
-                    "Teaspoons" -> return ingredient.weightConversion/48
+                    "Cups" -> return 1/ingredient.weightConversion
+                    "Tablespoons" -> return 1/(ingredient.weightConversion/16)
+                    "Teaspoons" -> return 1/(ingredient.weightConversion/48)
                 }
             }
         }
