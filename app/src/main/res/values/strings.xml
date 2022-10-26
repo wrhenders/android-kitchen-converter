@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RecipeConverter</string>
+    <string name="app_name">Recipe Converter</string>
     <string-array name="unit_choices">
         <item>Grams</item>
         <item>Cups</item>
