@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/unitConverter"
         android:name="com.kitchen.recipeconverter.ui.unit.UnitConverter"
-        android:label="Unit Converter"
+        android:label="@string/unit_converter"
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.kitchen.recipeconverter.ui.main.HomeFragment"
-        android:label="Home"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 </navigation>

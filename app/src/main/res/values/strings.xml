@@ -9,4 +9,11 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Welcome to the \nKitchen Conversion App!</string>
+    <string name="units">Units</string>
+    <string name="quantity">Quantity</string>
+    <string name="convert">Convert:</string>
+    <string name="to">To:</string>
+    <string name="result">Result</string>
+    <string name="home">Home</string>
+    <string name="unit_converter">Unit Converter</string>
 </resources>

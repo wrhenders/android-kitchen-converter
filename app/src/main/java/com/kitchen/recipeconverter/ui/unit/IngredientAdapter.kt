@@ -15,7 +15,7 @@ class IngredientAdapter( private val ingredientList: List<Ingredient>,
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
     private var selectedItemPosition: Int? = null
 
-    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.ingredient_text_view)
         val cardView: LinearLayout = view.findViewById(R.id.cardView)
     }

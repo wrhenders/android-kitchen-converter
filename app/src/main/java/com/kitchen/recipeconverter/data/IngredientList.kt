@@ -7,7 +7,7 @@ class IngredientList {
     }
 
     private val ingredientList: List<Ingredient> =
-        listOf<Ingredient>(
+        listOf(
             Ingredient("Flour, AP", 125.0),
             Ingredient("Sugar", 200.0),
             Ingredient("Water", 236.0),

@@ -17,7 +17,7 @@ class UnitConverterViewModel : ViewModel() {
             selectedConvertFrom!= null &&
             selectedConvertTo!= null){
             val multiplier = conversionType(selectedConvertFrom!!, selectedConvertTo!!, selectedIngredient!!)
-            return "${((entryAmount?.toDouble() ?: 1.0) * multiplier).toString()}"
+            return ((entryAmount?.toDouble() ?: 1.0) * multiplier).toString()
         } else {
             return ""
         }

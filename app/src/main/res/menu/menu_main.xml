@@ -3,11 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/homeFragment"
-            android:title="Home"
+            android:title="@string/home"
             android:icon="@drawable/ic_home" />
         <item
             android:id="@+id/unitConverter"
-            android:title="Unit Converter"
+            android:title="@string/unit_converter"
             android:icon="@drawable/ic_balance" />
 
         <item
