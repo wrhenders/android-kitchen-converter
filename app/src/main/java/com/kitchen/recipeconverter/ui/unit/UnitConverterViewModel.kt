@@ -1,4 +1,4 @@
-package com.kitchen.recipeconverter.ui.main
+package com.kitchen.recipeconverter.ui.unit
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
