@@ -4,15 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kitchen.recipeconverter.data.Ingredient
 
-class MainViewModel : ViewModel() {
-    val ingredientList: List<Ingredient> =
-        listOf<Ingredient>(
-        Ingredient("Flour", 120.0),
-        Ingredient("Sugar", 201.0),
-        Ingredient("Water", 236.0),
-        Ingredient("Vegetable Oil", 225.0),
-        Ingredient("Baking Powder", 192.0)
-    )
+class UnitConverterViewModel : ViewModel() {
+
     var selectedIngredient: Ingredient? = null
     var selectedConvertFrom: String? = null
     var selectedConvertTo: String? = null
@@ -67,4 +60,13 @@ class MainViewModel : ViewModel() {
         }
         return 0.0
     }
+
+    val ingredientList: List<Ingredient> =
+        listOf<Ingredient>(
+            Ingredient("Flour", 120.0),
+            Ingredient("Sugar", 201.0),
+            Ingredient("Water", 236.0),
+            Ingredient("Vegetable Oil", 225.0),
+            Ingredient("Baking Powder", 192.0)
+        )
 }

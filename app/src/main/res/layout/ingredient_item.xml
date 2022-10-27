@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="6dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp">
 <LinearLayout
@@ -13,13 +13,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="4dp">
     <TextView
         android:id="@+id/ingredient_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:letterSpacing="0.1"
+        android:textAppearance="?attr/textAppearanceBody1"
         tools:text="Flour"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

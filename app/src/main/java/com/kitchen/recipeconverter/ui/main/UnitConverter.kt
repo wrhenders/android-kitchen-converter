@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.databinding.FragmentMainBinding
 
-class MainFragment : Fragment() {
+class UnitConverter : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: UnitConverterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

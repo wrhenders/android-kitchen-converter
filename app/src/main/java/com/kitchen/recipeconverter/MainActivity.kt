@@ -2,7 +2,6 @@ package com.kitchen.recipeconverter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -14,7 +13,6 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
-import com.kitchen.recipeconverter.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
