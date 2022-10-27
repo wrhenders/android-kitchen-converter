@@ -1,6 +1,7 @@
 package com.kitchen.recipeconverter.data
 
 class IngredientList {
+
     fun getList(): List<Ingredient> {
         return ingredientList.sortedBy { it.name }
     }
@@ -53,6 +54,9 @@ class IngredientList {
             Ingredient("Yogurt, greek", 285.0),
             Ingredient("Yogurt, regular", 245.0),
             Ingredient("Mayonnaise", 226.0),
+            Ingredient("Vanilla Extract", 224.0),
+            Ingredient("Salt, Diamond Crystal", 128.0),
+            Ingredient("Salt, table", 288.0),
         )
 
 }
