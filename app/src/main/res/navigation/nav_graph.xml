@@ -15,4 +15,9 @@
         android:name="com.kitchen.recipeconverter.ui.main.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/gramItFragment"
+        android:name="com.kitchen.recipeconverter.ui.gramit.GramItFragment"
+        android:label="@string/gram_it"
+        tools:layout="@layout/fragment_gram_it" />
 </navigation>

@@ -40,7 +40,6 @@ class UnitConverter : Fragment() {
         val units = resources.getStringArray(R.array.unit_choices)
         val menuAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, units)
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         binding.recyclerView.adapter = IngredientAdapter(viewModel.ingredientList) {
             viewModel.selectedIngredient = it

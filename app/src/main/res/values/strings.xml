@@ -7,7 +7,12 @@
         <item>Teaspoons</item>
         <item>Ounces</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="unit_choices_short">
+        <item>c</item>
+        <item>T</item>
+        <item>t</item>
+        <item>oz</item>
+    </string-array>
     <string name="hello_blank_fragment">Welcome to the \nKitchen Conversion App!</string>
     <string name="units">Units</string>
     <string name="quantity">Quantity</string>
@@ -16,4 +21,5 @@
     <string name="result">Result</string>
     <string name="home">Home</string>
     <string name="unit_converter">Unit Converter</string>
+    <string name="gram_it">Gram It</string>
 </resources>
