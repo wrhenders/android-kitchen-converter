@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_balance" />
 
         <item
-            android:id="@+id/sentItemsFragment"
+            android:id="@+id/gramItFragment"
             android:icon="@android:drawable/ic_menu_send"
-            android:title="Recipe Converter" />
+            android:title="@string/gram_it" />
     </group>
 
     <item android:title="Support">

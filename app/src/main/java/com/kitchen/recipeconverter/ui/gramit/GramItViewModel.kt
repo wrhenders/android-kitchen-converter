@@ -6,7 +6,7 @@ import com.kitchen.recipeconverter.data.IngredientList
 
 class GramItViewModel : ViewModel() {
     private val itemList: MutableList<GramItItem> = mutableListOf(
-        GramItItem(null,"","")
+        GramItItem(0.0,"c","")
     )
     fun getList(): MutableList<GramItItem> {
         return itemList
