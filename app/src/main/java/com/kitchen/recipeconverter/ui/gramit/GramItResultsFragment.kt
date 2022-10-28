@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.kitchen.recipeconverter.R
 
@@ -22,6 +23,8 @@ class GramItResultsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val resultString = viewModel.
+        val resultString = viewModel.makeReturnString()
+        val resultText = view.findViewById<TextView>(R.id.results_text)
+        resultText.text = resultString
     }
 }

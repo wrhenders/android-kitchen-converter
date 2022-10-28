@@ -2,6 +2,7 @@ package com.kitchen.recipeconverter.ui.gramit
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
+import com.kitchen.recipeconverter.data.GramItItem
 import com.kitchen.recipeconverter.databinding.FragmentGramItBinding
 import com.kitchen.recipeconverter.databinding.FragmentMainBinding
 import com.kitchen.recipeconverter.ui.unit.IngredientAdapter
@@ -37,19 +40,24 @@ class GramItFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.recyclerView
-        val itemList = viewModel.getList()
+        val itemList = viewModel.itemList
         val ingredientList = viewModel.getIngredientList()
 
         val units = resources.getStringArray(R.array.unit_choices_short)
         val menuAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, units)
         val ingredientAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, ingredientList)
-        val recyclerAdapter = GramItAdapter(itemList, menuAdapter, ingredientAdapter)
+        val recyclerAdapter = GramItAdapter(itemList, menuAdapter, ingredientAdapter) { item, position ->
+            viewModel.editList(position, item)
+            Log.d("OutsideClick", "${viewModel.itemList[position]}")
+        }
         binding.recyclerView.adapter = recyclerAdapter
         binding.floatingActionButton.setOnClickListener {
             viewModel.addItem()
-            recyclerAdapter.notifyItemInserted(ingredientList.size)
+            recyclerAdapter.notifyItemInserted(ingredientList.size-1)
         }
-
+        binding.convertButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_gramItFragment_to_gramItResultsFragment)
+        }
     }
 
     override fun onDestroyView() {
