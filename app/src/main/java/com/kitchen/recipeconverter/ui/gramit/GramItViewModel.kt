@@ -14,8 +14,8 @@ class GramItViewModel : ViewModel() {
     fun editList(position: Int, item: GramItItem) {
         itemList[position] = item
     }
-    fun addToList(item: GramItItem) {
-        itemList.add(item)
+    fun addItem() {
+        itemList.add(GramItItem(0.0,"",""))
     }
 
     fun getIngredientList(): List<String>{

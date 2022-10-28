@@ -43,7 +43,12 @@ class GramItFragment : Fragment() {
         val units = resources.getStringArray(R.array.unit_choices_short)
         val menuAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, units)
         val ingredientAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, ingredientList)
-        binding.recyclerView.adapter = GramItAdapter(itemList, menuAdapter, ingredientAdapter)
+        val recyclerAdapter = GramItAdapter(itemList, menuAdapter, ingredientAdapter)
+        binding.recyclerView.adapter = recyclerAdapter
+        binding.floatingActionButton.setOnClickListener {
+            viewModel.addItem()
+            recyclerAdapter.notifyItemInserted(ingredientList.size)
+        }
 
     }
 
