@@ -41,7 +41,7 @@ class GramItFragment : Fragment() {
 
         recyclerView = binding.recyclerView
         val itemList = viewModel.itemList
-        val ingredientList = viewModel.getIngredientList()
+        val ingredientList = viewModel.getIngredientListNames()
 
         val units = resources.getStringArray(R.array.unit_choices_short)
         val menuAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, units)
