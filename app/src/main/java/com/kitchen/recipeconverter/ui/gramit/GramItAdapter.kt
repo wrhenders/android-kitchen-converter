@@ -3,14 +3,11 @@ package com.kitchen.recipeconverter.ui.gramit
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -18,7 +15,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.data.Converter
 import com.kitchen.recipeconverter.data.GramItItem
-import com.kitchen.recipeconverter.data.Ingredient
 import com.kitchen.recipeconverter.data.IngredientList
 
 class GramItAdapter(private val itemsList: List<GramItItem>,
@@ -31,7 +27,9 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         val quantityText: TextInputEditText = view.findViewById(R.id.quantity_text)
         val unitText: AutoCompleteTextView = view.findViewById(R.id.unit_text)
         val ingredientText: AutoCompleteTextView = view.findViewById(R.id.ingredient_text)
+        val quantityLayout: TextInputLayout = view.findViewById(R.id.quantity_text_label)
         val ingredientLayout: TextInputLayout = view.findViewById(R.id.ingredient_menu)
+        val unitLayout: TextInputLayout = view.findViewById(R.id.unit_menu)
         var currentQuantity = quantityText.toString()
         var currentUnit = unitText.toString()
         var currentIngredient = ingredientText.toString()
@@ -54,12 +52,14 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         holder.unitText.setText(itemsList[position].unit)
         holder.ingredientText.setText(itemsList[position].ingredient)
 
-        fun onClick(){
-            val currentItem = GramItItem(holder.currentQuantity,holder.currentUnit, holder.currentIngredient)
+
+        fun onClick() {
+            val currentItem =
+                GramItItem(holder.currentQuantity, holder.currentUnit, holder.currentIngredient)
             onItemClicked(currentItem, position)
         }
 
-        fun changeStrokeColor(type: String): ColorStateList{
+        fun changeStrokeColor(type: String): ColorStateList {
             val errorColor = Color.parseColor("#B00020")
             val defaultColor = Color.parseColor("#60000000")
 
@@ -71,39 +71,48 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             )
             val colors =
                 if (type == "error") {
-                 intArrayOf(defaultColor, defaultColor, defaultColor, errorColor)
+                    intArrayOf(defaultColor, defaultColor, defaultColor, errorColor)
                 } else {
                     intArrayOf(defaultColor, defaultColor, defaultColor, defaultColor)
                 }
             return ColorStateList(states, colors)
         }
 
-        holder.quantityText.doAfterTextChanged {
-            val updatedQuantity = it.toString()
-            if (updatedQuantity.toDoubleOrNull() is Double) {
-                holder.currentQuantity = updatedQuantity
-                onClick()
-            } else {
-                holder.quantityText.error = "Enter Number"
+        holder.quantityText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val updatedQuantity = holder.quantityText.text.toString()
+                if (updatedQuantity.toDoubleOrNull() is Double) {
+                    holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                    holder.currentQuantity = updatedQuantity
+                    onClick()
+                } else {
+                    holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                }
             }
         }
-        holder.unitText.doAfterTextChanged {
-            val updatedUnit = it.toString()
-            if (Converter().getUnitType(updatedUnit).isNotEmpty()){
-                holder.currentUnit = updatedUnit
-                onClick()
-            } else {
-                holder.unitText.error = "Not Valid"
+
+        holder.unitText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val updatedUnit = holder.unitText.text.toString()
+                if (Converter().getUnitType(updatedUnit).isNotEmpty()) {
+                    holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                    holder.currentUnit = updatedUnit
+                    onClick()
+                } else {
+                    holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                }
             }
         }
-        holder.ingredientText.doAfterTextChanged {
-            val updatedIngredient = it.toString()
-            if (holder.ingredientText.validator.isValid(updatedIngredient)) {
-                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                holder.currentIngredient = updatedIngredient
-                onClick()
-            } else {
-                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+        holder.ingredientText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val updatedIngredient = holder.ingredientText.text.toString()
+                if (holder.ingredientText.validator.isValid(updatedIngredient)) {
+                    holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                    holder.currentIngredient = updatedIngredient
+                    onClick()
+                } else {
+                    holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                }
             }
         }
     }
