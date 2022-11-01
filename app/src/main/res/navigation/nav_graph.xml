@@ -27,5 +27,6 @@
     <fragment
         android:id="@+id/gramItResultsFragment"
         android:name="com.kitchen.recipeconverter.ui.gramit.GramItResultsFragment"
-        android:label="GramItResultsFragment" />
+        android:label="Gram It Recipe"
+        tools:layout="@layout/fragment_gram_it_results"/>
 </navigation>
