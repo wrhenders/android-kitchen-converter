@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -48,7 +47,7 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         holder.ingredientText.validator = IngredientValidator()
 
         // Set the fields to correct current state
-        holder.quantityText.setText(itemsList[position].quantity.toString())
+        holder.quantityText.setText(itemsList[position].quantity)
         holder.unitText.setText(itemsList[position].unit)
         holder.ingredientText.setText(itemsList[position].ingredient)
 
