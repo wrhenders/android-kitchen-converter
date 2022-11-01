@@ -22,10 +22,10 @@
         tools:layout="@layout/fragment_gram_it" >
         <action
             android:id="@+id/action_gramItFragment_to_gramItResultsFragment"
-            app:destination="@id/gramItResultsFragment" />
+            app:destination="@id/editRecipeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/gramItResultsFragment"
+        android:id="@+id/editRecipeFragment"
         android:name="com.kitchen.recipeconverter.ui.recipelist.EditRecipeFragment"
         android:label="Edit Recipe"
         tools:layout="@layout/fragment_edit_recipe"/>
