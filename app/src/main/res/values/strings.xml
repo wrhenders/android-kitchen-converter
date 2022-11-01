@@ -22,4 +22,5 @@
     <string name="home">Home</string>
     <string name="unit_converter">Unit Converter</string>
     <string name="gram_it">Gram It</string>
+    <string name="recipe_list">Recipe List</string>
 </resources>

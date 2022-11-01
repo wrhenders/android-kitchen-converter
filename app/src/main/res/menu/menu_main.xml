@@ -6,6 +6,10 @@
             android:title="@string/home"
             android:icon="@drawable/ic_home" />
         <item
+            android:id="@+id/recipeListFragment"
+            android:title="@string/recipe_list"
+            android:icon="@drawable/ic_grid" />
+        <item
             android:id="@+id/unitConverter"
             android:title="@string/unit_converter"
             android:icon="@drawable/ic_balance" />
