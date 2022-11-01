@@ -5,6 +5,7 @@ import com.kitchen.recipeconverter.data.Converter
 import com.kitchen.recipeconverter.data.GramItItem
 import com.kitchen.recipeconverter.data.Ingredient
 import com.kitchen.recipeconverter.data.IngredientList
+import java.text.DecimalFormat
 
 class GramItViewModel : ViewModel() {
     private val _itemList: MutableList<GramItItem> = mutableListOf(
@@ -31,11 +32,13 @@ class GramItViewModel : ViewModel() {
 
     fun makeReturnString():String{
         var returnString = ""
+        val df = DecimalFormat("#.##")
+
         for (item in _itemList){
             if (validityCheck(item)) {
                 val unitType = Converter().getUnitType(item.unit)
                 val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient))
-                returnString += "$quantity g of ${item.ingredient} \n"
+                returnString += "${df.format(quantity)}g of ${item.ingredient} \n"
             }
         }
         return returnString

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -58,6 +59,8 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             onItemClicked(currentItem, position)
         }
 
+
+
         fun changeStrokeColor(type: String): ColorStateList {
             val errorColor = Color.parseColor("#B00020")
             val defaultColor = Color.parseColor("#60000000")
@@ -77,43 +80,54 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             return ColorStateList(states, colors)
         }
 
-        holder.quantityText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                val updatedQuantity = holder.quantityText.text.toString()
-                if (updatedQuantity.toDoubleOrNull() is Double) {
-                    holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                    holder.currentQuantity = updatedQuantity
-                    onClick()
-                } else {
-                    holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
-                }
+        fun updateQuantity() {
+            val updatedQuantity = holder.quantityText.text.toString()
+            if (updatedQuantity.toDoubleOrNull() is Double) {
+                holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                holder.currentQuantity = updatedQuantity
+                onClick()
+            } else {
+                holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
             }
         }
 
+        fun updateUnit(){
+            val updatedUnit = holder.unitText.text.toString()
+            if (Converter().getUnitType(updatedUnit).isNotEmpty()) {
+                holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                holder.currentUnit = updatedUnit
+                onClick()
+            } else {
+                holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+            }
+        }
+        fun updateIngredient(){
+            val updatedIngredient = holder.ingredientText.text.toString()
+            if (holder.ingredientText.validator.isValid(updatedIngredient)) {
+                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                holder.currentIngredient = updatedIngredient
+                onClick()
+            } else {
+                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+            }
+        }
+
+        holder.quantityText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) updateQuantity()
+        }
+        holder.quantityText.doAfterTextChanged { updateQuantity() }
+
+
         holder.unitText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                val updatedUnit = holder.unitText.text.toString()
-                if (Converter().getUnitType(updatedUnit).isNotEmpty()) {
-                    holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                    holder.currentUnit = updatedUnit
-                    onClick()
-                } else {
-                    holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
-                }
-            }
+            if (!hasFocus) updateUnit()
         }
+        holder.unitText.doAfterTextChanged { updateUnit() }
+
+
         holder.ingredientText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                val updatedIngredient = holder.ingredientText.text.toString()
-                if (holder.ingredientText.validator.isValid(updatedIngredient)) {
-                    holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                    holder.currentIngredient = updatedIngredient
-                    onClick()
-                } else {
-                    holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
-                }
-            }
+            if (!hasFocus) updateIngredient()
         }
+        holder.ingredientText.doAfterTextChanged { updateIngredient() }
     }
 
     override fun getItemCount() = itemsList.size
