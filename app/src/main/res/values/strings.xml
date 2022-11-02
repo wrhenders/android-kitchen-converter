@@ -23,4 +23,6 @@
     <string name="unit_converter">Unit Converter</string>
     <string name="gram_it">Gram It</string>
     <string name="recipe_list">Recipe List</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="edit_recipe">Edit Recipe</string>
 </resources>

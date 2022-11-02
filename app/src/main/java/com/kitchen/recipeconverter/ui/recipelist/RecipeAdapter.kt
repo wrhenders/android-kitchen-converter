@@ -10,7 +10,8 @@ import com.kitchen.recipeconverter.data.recipe.Recipe
 import com.kitchen.recipeconverter.data.recipe.getFormattedDate
 import com.kitchen.recipeconverter.databinding.RecipeItemBinding
 
-class RecipeAdapter() : ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(DiffCallback) {
+class RecipeAdapter(private val onItemClicked: (Recipe)->Unit) :
+    ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(DiffCallback) {
 
     class RecipeViewHolder(private var binding: RecipeItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -26,6 +27,9 @@ class RecipeAdapter() : ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(Diff
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val current = getItem(position)
+        holder.itemView.setOnClickListener {
+            onItemClicked(current)
+        }
         holder.bind(current)
     }
 

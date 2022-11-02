@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
@@ -54,7 +55,8 @@ class GramItFragment : Fragment() {
             recyclerAdapter.notifyItemInserted(ingredientList.size-1)
         }
         binding.convertButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_gramItFragment_to_gramItResultsFragment)
+            val action = GramItFragmentDirections.actionGramItFragmentToEditRecipeFragment(getString(R.string.edit_recipe))
+            findNavController().navigate(action)
         }
     }
 
