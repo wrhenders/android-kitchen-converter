@@ -9,7 +9,7 @@
         android:id="@+id/unitConverter"
         android:name="com.kitchen.recipeconverter.ui.unit.UnitConverter"
         android:label="@string/unit_converter"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_unit_converter" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.kitchen.recipeconverter.ui.main.HomeFragment"

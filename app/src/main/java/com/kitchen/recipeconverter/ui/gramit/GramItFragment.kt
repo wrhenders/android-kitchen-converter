@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.data.GramItItem
 import com.kitchen.recipeconverter.databinding.FragmentGramItBinding
-import com.kitchen.recipeconverter.databinding.FragmentMainBinding
-import com.kitchen.recipeconverter.ui.unit.IngredientAdapter
-import com.kitchen.recipeconverter.ui.unit.UnitConverterViewModel
+
 
 class GramItFragment : Fragment() {
 

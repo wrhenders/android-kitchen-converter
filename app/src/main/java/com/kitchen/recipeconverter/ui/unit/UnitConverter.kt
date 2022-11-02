@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.kitchen.recipeconverter.R
-import com.kitchen.recipeconverter.databinding.FragmentMainBinding
+import com.kitchen.recipeconverter.databinding.FragmentUnitConverterBinding
+
 
 class UnitConverter : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentUnitConverterBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private val viewModel: UnitConverterViewModel by activityViewModels()
@@ -24,9 +25,8 @@ class UnitConverter : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentMainBinding.inflate(inflater,container,false)
-        _binding = fragmentBinding
-        return fragmentBinding.root
+        _binding = FragmentUnitConverterBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

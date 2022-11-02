@@ -17,7 +17,7 @@ data class Recipe(
     @ColumnInfo(name = "method")
     val recipeMethod: String,
     @ColumnInfo(name = "date")
-    val dateModified: Int
+    val dateModified: Long
 )
 
-fun Recipe.getFormattedDate(): String = SimpleDateFormat("MMM d,''yy").format(Date(dateModified.toLong()))
+fun Recipe.getFormattedDate(): String = SimpleDateFormat("MMM d, yyyy").format(Date(dateModified).time)

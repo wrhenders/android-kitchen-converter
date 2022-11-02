@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.data.recipe.Recipe
+import com.kitchen.recipeconverter.data.recipe.getFormattedDate
 import com.kitchen.recipeconverter.databinding.RecipeItemBinding
 
 class RecipeAdapter() : ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(DiffCallback) {
@@ -14,7 +15,8 @@ class RecipeAdapter() : ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(Diff
     class RecipeViewHolder(private var binding: RecipeItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe){
-            binding.recipe = recipe
+            binding.recipeTitle.text = recipe.recipeTitle
+            binding.dateModified.text = recipe.getFormattedDate()
         }
     }
 

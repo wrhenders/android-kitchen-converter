@@ -1,5 +1,6 @@
 package com.kitchen.recipeconverter.ui.recipelist
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.kitchen.recipeconverter.data.recipe.Recipe
 import com.kitchen.recipeconverter.data.recipe.RecipeDao
@@ -11,11 +12,12 @@ class RecipeListViewModel(private val recipeDao: RecipeDao) : ViewModel() {
 
     private fun insertRecipe(recipe: Recipe){
         viewModelScope.launch {
+            Log.d("DB", "Launching")
             recipeDao.insert(recipe)
         }
     }
 
-    private fun deleteRecipe(recipe: Recipe){
+    fun deleteRecipe(recipe: Recipe){
         viewModelScope.launch {
             recipeDao.delete(recipe)
         }
@@ -28,13 +30,14 @@ class RecipeListViewModel(private val recipeDao: RecipeDao) : ViewModel() {
     }
 
     fun addNewRecipe(recipeTitle: String, recipeIngredients: String, recipeMethod: String) {
-        val currentDate = System.currentTimeMillis().toInt()
+        val currentDate = System.currentTimeMillis()
         val newRecipe = Recipe(recipeTitle=recipeTitle, recipeIngredients = recipeIngredients, recipeMethod = recipeMethod, dateModified = currentDate)
+        Log.d("DB", "Adding $newRecipe")
         insertRecipe(newRecipe)
     }
 
     fun updateRecipe(id: Int, recipeTitle: String, recipeIngredients: String, recipeMethod: String) {
-        val currentDate = System.currentTimeMillis().toInt()
+        val currentDate = System.currentTimeMillis()
         val updatedRecipe = Recipe(id, recipeTitle, recipeIngredients, recipeMethod, dateModified = currentDate)
         updateRecipe(updatedRecipe)
     }
