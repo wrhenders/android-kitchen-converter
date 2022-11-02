@@ -62,9 +62,9 @@ class EditRecipeFragment : Fragment() {
         if(isEntryValid()){
             recipeViewModel.updateRecipe(
                 navigationArgs.recipeId,
-                this.binding.titleText.toString(),
-                this.binding.recipeText.toString(),
-                this.binding.methodText.toString()
+                this.binding.titleText.text.toString(),
+                this.binding.recipeText.text.toString(),
+                this.binding.methodText.text.toString()
             )
             val action = EditRecipeFragmentDirections.actionEditRecipeFragmentToRecipeListFragment()
             findNavController().navigate(action)
@@ -101,6 +101,14 @@ class EditRecipeFragment : Fragment() {
             }
         }
 
+    }
+
+    /**
+     * Called when fragment is destroyed.
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

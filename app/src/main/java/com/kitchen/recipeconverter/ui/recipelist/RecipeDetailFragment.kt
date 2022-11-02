@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.RecipeConverterApplication
 import com.kitchen.recipeconverter.data.recipe.Recipe
@@ -22,6 +24,7 @@ class RecipeDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var recipe: Recipe
+    lateinit var watchedRecipe: LiveData<Recipe>
 
     private val viewModel: RecipeListViewModel by activityViewModels {
         RecipeListViewModelFactory(
@@ -40,14 +43,10 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.recipeId
-        viewModel.getRecipe(id).observe(this.viewLifecycleOwner) {selectedRecipe ->
+        watchedRecipe = viewModel.getRecipe(id)
+        watchedRecipe.observe(this.viewLifecycleOwner) { selectedRecipe ->
             recipe = selectedRecipe
             bind(recipe)
-        }
-        binding.editButton.setOnClickListener {
-            val action = RecipeDetailFragmentDirections
-                .actionRecipeDetailFragmentToEditRecipeFragment(getString(R.string.edit_recipe), id)
-            findNavController().navigate(action)
         }
     }
 
@@ -59,7 +58,41 @@ class RecipeDetailFragment : Fragment() {
             recipeText.isEnabled = false
             methodText.setText(recipe.recipeMethod)
             methodText.isEnabled = false
+            editButton.setOnClickListener {
+                    val action = RecipeDetailFragmentDirections
+                        .actionRecipeDetailFragmentToEditRecipeFragment(getString(R.string.edit_recipe), recipe.id)
+                    findNavController().navigate(action)
+                }
+            deleteButton.setOnClickListener { showConfirmationDialog() }
         }
+    }
+
+    private fun showConfirmationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(android.R.string.dialog_alert_title)
+            .setMessage("Are you sure you want to delete?")
+            .setCancelable(false)
+            .setNegativeButton("No"){_,_->}
+            .setPositiveButton("Yes") {_,_->
+                deleteItem()
+            }
+            .show()
+    }
+
+    private fun deleteItem() {
+        watchedRecipe.removeObservers(this.viewLifecycleOwner)
+        viewModel.deleteRecipe(recipe)
+        val action = RecipeDetailFragmentDirections.actionRecipeDetailFragmentToRecipeListFragment()
+        findNavController().navigate(action)
+    }
+
+
+    /**
+     * Called when fragment is destroyed.
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

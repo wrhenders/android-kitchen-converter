@@ -70,12 +70,24 @@
 
         <Button
             android:id="@+id/edit_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="Edit"
             app:layout_constraintTop_toBottomOf="@id/method_label"
+            app:layout_constraintStart_toEndOf="@id/delete_button"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/delete_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Delete"
+            app:layout_constraintTop_toBottomOf="@id/method_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/edit_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
