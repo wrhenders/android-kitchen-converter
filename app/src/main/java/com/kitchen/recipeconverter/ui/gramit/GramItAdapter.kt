@@ -2,6 +2,7 @@ package com.kitchen.recipeconverter.ui.gramit
 
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +31,6 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         val quantityLayout: TextInputLayout = view.findViewById(R.id.quantity_text_label)
         val ingredientLayout: TextInputLayout = view.findViewById(R.id.ingredient_menu)
         val unitLayout: TextInputLayout = view.findViewById(R.id.unit_menu)
-        var currentQuantity = quantityText.toString()
-        var currentUnit = unitText.toString()
-        var currentIngredient = ingredientText.toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,14 +46,16 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         holder.ingredientText.validator = IngredientValidator()
 
         // Set the fields to correct current state
-        holder.quantityText.setText(itemsList[position].quantity)
-        holder.unitText.setText(itemsList[position].unit)
-        holder.ingredientText.setText(itemsList[position].ingredient)
+        holder.quantityText.setText(itemsList[position].quantity.toString())
+        holder.unitText.setText(itemsList[position].unit.toString())
+        holder.ingredientText.setText(itemsList[position].ingredient.toString())
+        Log.d("updating","bind to list: $itemsList")
 
 
         fun onClick() {
             val currentItem =
-                GramItItem(holder.currentQuantity, holder.currentUnit, holder.currentIngredient)
+                GramItItem(holder.quantityText.text.toString(), holder.unitText.text.toString(), holder.ingredientText.text.toString())
+            Log.d("updating", "click! $currentItem")
             onItemClicked(currentItem, position)
         }
 
@@ -64,7 +64,6 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             val updatedQuantity = holder.quantityText.text.toString()
             if (updatedQuantity.toDoubleOrNull() is Double) {
                 holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                holder.currentQuantity = updatedQuantity
                 onClick()
             } else {
                 holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
@@ -75,17 +74,16 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             val updatedUnit = holder.unitText.text.toString()
             if (Converter().getUnitType(updatedUnit).isNotEmpty()) {
                 holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                holder.currentUnit = updatedUnit
                 onClick()
             } else {
                 holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
             }
         }
         fun updateIngredient(){
+            Log.d("updating", "test")
             val updatedIngredient = holder.ingredientText.text.toString()
             if (holder.ingredientText.validator.isValid(updatedIngredient)) {
                 holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
-                holder.currentIngredient = updatedIngredient
                 onClick()
             } else {
                 holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))

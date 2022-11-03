@@ -15,7 +15,7 @@ fun changeStrokeColor(type: String): ColorStateList {
     )
     val colors =
         if (type == "error") {
-            intArrayOf(defaultColor, defaultColor, defaultColor, errorColor)
+            intArrayOf(errorColor, defaultColor, errorColor, errorColor)
         } else {
             intArrayOf(defaultColor, defaultColor, defaultColor, defaultColor)
         }
