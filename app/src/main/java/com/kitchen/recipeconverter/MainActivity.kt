@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setSupportActionBar(toolbar)
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val builder = AppBarConfiguration.Builder(navController.graph)
+        val builder = AppBarConfiguration.Builder(setOf(R.id.homeFragment, R.id.gramItFragment, R.id.recipeListFragment, R.id.unitConverterFragment))
         builder.setOpenableLayout(drawer)
         val appBarConfiguration = builder.build()
         toolbar.setupWithNavController(navController, appBarConfiguration)

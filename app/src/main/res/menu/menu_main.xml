@@ -10,7 +10,7 @@
             android:title="@string/recipe_list"
             android:icon="@drawable/ic_grid" />
         <item
-            android:id="@+id/unitConverter"
+            android:id="@+id/unitConverterFragment"
             android:title="@string/unit_converter"
             android:icon="@drawable/ic_balance" />
 

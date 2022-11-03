@@ -6,8 +6,8 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/unitConverter"
-        android:name="com.kitchen.recipeconverter.ui.unit.UnitConverter"
+        android:id="@+id/unitConverterFragment"
+        android:name="com.kitchen.recipeconverter.ui.unit.UnitConverterFragment"
         android:label="@string/unit_converter"
         tools:layout="@layout/fragment_unit_converter" />
     <fragment
@@ -16,12 +16,12 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/gramItFragment"
-        android:name="com.kitchen.recipeconverter.ui.gramit.GramItFragment"
-        android:label="@string/gram_it"
-        tools:layout="@layout/fragment_gram_it" >
+        android:id="@+id/gramItEditFragment"
+        android:name="com.kitchen.recipeconverter.ui.gramit.GramItEditFragment"
+        android:label="Edit Gram It"
+        tools:layout="@layout/fragment_gram_it_edit" >
         <action
-            android:id="@+id/action_gramItFragment_to_editRecipeFragment"
+            android:id="@+id/action_gramItEditFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
     </fragment>
     <fragment
@@ -70,6 +70,15 @@
             app:destination="@id/recipeListFragment"
             app:popUpTo="@id/recipeListFragment"
             app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/gramItFragment"
+        android:name="com.kitchen.recipeconverter.ui.gramit.GramItFragment"
+        android:label="Gram It"
+        tools:layout="@layout/fragment_gram_it" >
+        <action
+            android:id="@+id/action_gramItFragment_to_gramItEditFragment"
+            app:destination="@id/gramItEditFragment" />
     </fragment>
 
 </navigation>

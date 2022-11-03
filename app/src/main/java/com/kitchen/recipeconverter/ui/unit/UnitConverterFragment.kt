@@ -9,12 +9,11 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.databinding.FragmentUnitConverterBinding
 
 
-class UnitConverter : Fragment() {
+class UnitConverterFragment : Fragment() {
 
     private var _binding: FragmentUnitConverterBinding? = null
     private val binding get() = _binding!!
