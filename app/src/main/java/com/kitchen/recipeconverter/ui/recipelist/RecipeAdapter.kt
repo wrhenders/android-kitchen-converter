@@ -1,6 +1,5 @@
 package com.kitchen.recipeconverter.ui.recipelist
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +11,7 @@ import com.kitchen.recipeconverter.databinding.RecipeItemBinding
 
 class RecipeAdapter(private val onItemClicked: (Recipe)->Unit) :
     ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(DiffCallback) {
+
 
     class RecipeViewHolder(private var binding: RecipeItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -43,5 +43,6 @@ class RecipeAdapter(private val onItemClicked: (Recipe)->Unit) :
                 return oldItem.id == newItem.id
             }
         }
+
     }
 }
