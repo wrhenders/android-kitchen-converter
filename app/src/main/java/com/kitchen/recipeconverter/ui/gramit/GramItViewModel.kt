@@ -1,5 +1,8 @@
 package com.kitchen.recipeconverter.ui.gramit
 
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.UnderlineSpan
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kitchen.recipeconverter.data.Converter
@@ -19,7 +22,7 @@ class GramItViewModel : ViewModel() {
     val rawRecipeString get() = _rawRecipeString
 
     fun editList(position: Int, item: GramItItem) {
-        if(validityCheck(item)) _itemList[position] = item
+        _itemList[position] = item
     }
     fun addEmptyItem() {
         itemList.add(GramItItem("","",""))
@@ -48,6 +51,12 @@ class GramItViewModel : ViewModel() {
                 val unitType = Converter().getUnitType(item.unit)
                 val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient))
                 returnString += "${df.format(quantity)}g of ${item.ingredient} \n"
+            } else {
+                val builtString =
+                    "${df.format(item.quantity?.toDoubleOrNull() ?: "")} ${item.unit} ${item.ingredient} \n"
+                val underlined = SpannableString(builtString)
+                underlined.setSpan(UnderlineSpan(), 0, builtString.length,0)
+                returnString += underlined.toString()
             }
         }
         Log.d("ParseReturn", "Returning:$returnString")
@@ -60,21 +69,23 @@ class GramItViewModel : ViewModel() {
         val recipeLines = recipeText.split('\n')
         for ((i, line) in recipeLines.withIndex()){
             val items = line.split(' ')
-            if(items.size < 3) {
+            var parsedItem = GramItItem("","","")
+            if(items.size < 2) {
                 if(i in itemList.indices) {
-                    _itemList[i] = GramItItem("","","")
+                    _itemList[i] = parsedItem
                 }
                 continue
             }
-
             val quantity = items[0]
-            val unit = items[1]
-            val ingredient = items.slice(2 until items.size).joinToString(" ")
-
             val parsedQuantity = parseQuantity(quantity)
-            val parsedUnit = parseUnit(unit)
-
-            val parsedItem = GramItItem(parsedQuantity, parsedUnit, ingredient)
+            parsedItem = if(items.size == 2) {
+                GramItItem(parsedQuantity, "", items[1])
+            } else {
+                val unit = items[1]
+                val parsedUnit = parseUnit(unit)
+                val ingredient = items.slice(2 until items.size).joinToString(" ")
+                GramItItem(parsedQuantity, parsedUnit, ingredient)
+            }
             if (i in itemList.indices) _itemList[i] = parsedItem
             else _itemList.add(parsedItem)
         }
