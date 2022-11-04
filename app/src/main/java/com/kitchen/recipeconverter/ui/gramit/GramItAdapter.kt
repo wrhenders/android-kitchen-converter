@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.core.view.doOnAttach
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -31,6 +32,7 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         val quantityLayout: TextInputLayout = view.findViewById(R.id.quantity_text_label)
         val ingredientLayout: TextInputLayout = view.findViewById(R.id.ingredient_menu)
         val unitLayout: TextInputLayout = view.findViewById(R.id.unit_menu)
+        val ingredientNames = IngredientList().getList().map{ing->ing.name}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +45,6 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         // Add the adapters for dropdown and autocomplete menus
         holder.unitText.setAdapter(unitAdapter)
         holder.ingredientText.setAdapter(ingredientAdapter)
-        holder.ingredientText.validator = IngredientValidator()
 
         // Set the fields to correct current state
         holder.quantityText.setText(itemsList[position].quantity.toString())
@@ -58,70 +59,60 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
             Log.d("updating", "click! $currentItem")
             onItemClicked(currentItem, position)
         }
+         fun TextInputLayout.changeBoxColor(type: String) {
+             setBoxStrokeColorStateList(changeStrokeColor(type))
+         }
 
 
         fun updateQuantity() {
             val updatedQuantity = holder.quantityText.text.toString()
             if (updatedQuantity.toDoubleOrNull() is Double) {
-                holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                holder.quantityLayout.changeBoxColor("default")
                 onClick()
             } else {
-                holder.quantityLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                holder.quantityLayout.changeBoxColor("error")
             }
         }
 
         fun updateUnit(){
             val updatedUnit = holder.unitText.text.toString()
             if (Converter().getUnitType(updatedUnit).isNotEmpty()) {
-                holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+                holder.unitLayout.changeBoxColor("default")
+                unitAdapter.filter.filter(null)
                 onClick()
             } else {
-                holder.unitLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                holder.unitLayout.changeBoxColor("error")
             }
         }
         fun updateIngredient(){
             Log.d("updating", "test")
             val updatedIngredient = holder.ingredientText.text.toString()
-            if (holder.ingredientText.validator.isValid(updatedIngredient)) {
-                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("default"))
+            if (updatedIngredient in holder.ingredientNames) {
+                holder.ingredientLayout.changeBoxColor("default")
+                ingredientAdapter.filter.filter(null)
                 onClick()
             } else {
-                holder.ingredientLayout.setBoxStrokeColorStateList(changeStrokeColor("error"))
+                holder.ingredientLayout.changeBoxColor("error")
             }
         }
 
+        holder.quantityText.doOnAttach { updateQuantity() }
         holder.quantityText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) updateQuantity()
-        }
+            if (!hasFocus) updateQuantity() }
         holder.quantityText.doAfterTextChanged { updateQuantity() }
 
-
+        holder.unitText.doOnAttach { updateUnit() }
         holder.unitText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) updateUnit()
-        }
+            if (!hasFocus) updateUnit() }
         holder.unitText.doAfterTextChanged { updateUnit() }
 
-
+        holder.ingredientText.doOnAttach { updateIngredient() }
         holder.ingredientText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) updateIngredient()
-        }
+            if (!hasFocus) updateIngredient() }
         holder.ingredientText.doAfterTextChanged { updateIngredient() }
     }
 
     override fun getItemCount() = itemsList.size
 }
 
-class IngredientValidator : AutoCompleteTextView.Validator {
-    override fun isValid(text: CharSequence?): Boolean {
-        if(text.toString() in IngredientList().getList().map{ing->ing.name}){
-            return true
-        }
-        return false
-    }
-
-    override fun fixText(invalidText: CharSequence?): CharSequence {
-        return invalidText ?: ""
-    }
-
-}
 
