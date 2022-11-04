@@ -33,6 +33,11 @@ class GramItViewModel : ViewModel() {
         return ingredientList.filter { it.name == name }[0]
     }
 
+    fun clearItems() {
+        itemList.clear()
+        _rawRecipeString = ""
+    }
+
     fun makeReturnString():String{
         var returnString = ""
         val df = DecimalFormat("#.##")

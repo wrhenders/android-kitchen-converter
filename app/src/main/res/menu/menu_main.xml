@@ -16,7 +16,7 @@
 
         <item
             android:id="@+id/gramItFragment"
-            android:icon="@android:drawable/ic_menu_send"
+            android:icon="@drawable/ic_sparkle"
             android:title="@string/gram_it" />
     </group>
 
@@ -26,7 +26,7 @@
                 <item
                     android:id="@+id/helpFragment"
                     android:icon="@android:drawable/ic_menu_help"
-                    android:title="Help" />
+                    android:title="@string/help" />
             </group>
         </menu>
     </item>

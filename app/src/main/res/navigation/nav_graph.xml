@@ -14,7 +14,23 @@
         android:id="@+id/homeFragment"
         android:name="com.kitchen.recipeconverter.ui.main.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_unitConverterFragment"
+            app:destination="@id/unitConverterFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_homeFragment_to_gramItFragment"
+            app:destination="@id/gramItFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_homeFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/gramItEditFragment"
         android:name="com.kitchen.recipeconverter.ui.gramit.GramItEditFragment"
@@ -39,8 +55,8 @@
         <action
             android:id="@+id/action_editRecipeFragment_to_recipeListFragment"
             app:destination="@id/recipeListFragment"
-            app:popUpTo="@id/recipeListFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/recipeListFragment"

@@ -78,6 +78,15 @@
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:contentDescription="cat paw"
+        android:layout_marginBottom="-36dp"
+        android:scaleX=".8"
+        android:scaleY=".8"
+        android:src="@drawable/cuteCat"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
