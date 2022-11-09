@@ -52,7 +52,7 @@ class RecipeListViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         for (line in recipeLines){
             val items = line.split(' ')
             if(items.size < 2 || items[0].toFloatOrNull() == null) {
-                updatedString += line + '\n'
+                updatedString += "$line **Edit**\n"
                 continue
             }
             val quantity = items[0]

@@ -51,8 +51,14 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun scaleRecipe(recipe: Recipe, value: Float) {
-        this.binding.recipeText.setText(viewModel.scaleRecipe(recipe, value))
-
+        val updatedText  = viewModel.scaleRecipe(recipe, value)
+        this.binding.recipeText.setText(updatedText)
+        if (updatedText.contains("**Edit**")) {
+            this.binding.recipeLabel.isErrorEnabled = true
+            this.binding.recipeLabel.error = "**Edit Quantity to Scale**"
+        } else {
+            this.binding.recipeLabel.isErrorEnabled = false
+        }
     }
 
     private fun bind(recipe: Recipe) {

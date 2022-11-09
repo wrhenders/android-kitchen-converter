@@ -55,6 +55,8 @@ class EditRecipeFragment : Fragment() {
             )
             val action = EditRecipeFragmentDirections.actionEditRecipeFragmentToRecipeListFragment()
             findNavController().navigate(action)
+        } else{
+            showErrors()
         }
     }
 
@@ -69,6 +71,29 @@ class EditRecipeFragment : Fragment() {
             )
             val action = EditRecipeFragmentDirections.actionEditRecipeFragmentToRecipeListFragment()
             findNavController().navigate(action)
+        } else {
+            showErrors()
+        }
+    }
+
+    private fun showErrors(){
+        if(this.binding.titleText.text.isNullOrEmpty()){
+            this.binding.titleLabel.isErrorEnabled = true
+            this.binding.titleLabel.error = "Add Title"
+        } else {
+            this.binding.titleLabel.isErrorEnabled = false
+        }
+        if(this.binding.recipeText.text.isNullOrEmpty()){
+            this.binding.recipeLabel.isErrorEnabled = true
+            this.binding.recipeLabel.error = "Add Recipe"
+        } else {
+            this.binding.recipeLabel.isErrorEnabled = false
+        }
+        if(this.binding.methodText.text.isNullOrEmpty()){
+            this.binding.methodLabel.isErrorEnabled = true
+            this.binding.methodLabel.error = "Add Method"
+        } else {
+            this.binding.methodLabel.isErrorEnabled = false
         }
     }
 
