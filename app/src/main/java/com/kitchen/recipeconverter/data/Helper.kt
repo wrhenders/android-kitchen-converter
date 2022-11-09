@@ -2,6 +2,7 @@ package com.kitchen.recipeconverter.data
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import com.kitchen.recipeconverter.data.recipe.Recipe
 
 fun changeStrokeColor(type: String): ColorStateList {
     val errorColor = Color.parseColor("#B00020")

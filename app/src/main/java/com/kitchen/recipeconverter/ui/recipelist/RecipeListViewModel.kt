@@ -2,9 +2,11 @@ package com.kitchen.recipeconverter.ui.recipelist
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.kitchen.recipeconverter.data.GramItItem
 import com.kitchen.recipeconverter.data.recipe.Recipe
 import com.kitchen.recipeconverter.data.recipe.RecipeDao
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class RecipeListViewModel(private val recipeDao: RecipeDao) : ViewModel() {
 
@@ -40,6 +42,30 @@ class RecipeListViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         val currentDate = System.currentTimeMillis()
         val updatedRecipe = Recipe(id, recipeTitle, recipeIngredients, recipeMethod, dateModified = currentDate)
         updateRecipe(updatedRecipe)
+    }
+
+    fun scaleRecipe(recipe: Recipe, scaleRatio: Float): String {
+        val recipeText = recipe.recipeIngredients
+        if(recipeText.isNullOrBlank()) return ""
+        var updatedString = ""
+        val recipeLines = recipeText.split('\n')
+        for (line in recipeLines){
+            val items = line.split(' ')
+            if(items.size < 2 || items[0].toFloatOrNull() == null) {
+                updatedString += line + '\n'
+                continue
+            }
+            val quantity = items[0]
+            val updatedValue = DecimalFormat("#.##").format(quantity.toFloat() * scaleRatio)
+            updatedString += if(items.size == 2) {
+                "$updatedValue ${items[1]}\n"
+            } else {
+                val unit = items[1]
+                val ingredient = items.slice(2 until items.size).joinToString(" ")
+                "$updatedValue $unit $ingredient\n"
+            }
+        }
+        return updatedString.trim()
     }
 
     fun getRecipe(id: Int): LiveData<Recipe> {

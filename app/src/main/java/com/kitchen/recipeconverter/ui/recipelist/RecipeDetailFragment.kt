@@ -50,6 +50,11 @@ class RecipeDetailFragment : Fragment() {
         }
     }
 
+    private fun scaleRecipe(recipe: Recipe, value: Float) {
+        this.binding.recipeText.setText(viewModel.scaleRecipe(recipe, value))
+
+    }
+
     private fun bind(recipe: Recipe) {
         binding.apply{
             titleText.setText(recipe.recipeTitle)
@@ -58,6 +63,9 @@ class RecipeDetailFragment : Fragment() {
             recipeText.isEnabled = false
             methodText.setText(recipe.recipeMethod)
             methodText.isEnabled = false
+            scaleSlider.addOnChangeListener { _, value, _ ->
+                scaleRecipe(recipe, value)
+            }
             editButton.setOnClickListener {
                     val action = RecipeDetailFragmentDirections
                         .actionRecipeDetailFragmentToEditRecipeFragment(getString(R.string.edit_recipe), recipe.id)
