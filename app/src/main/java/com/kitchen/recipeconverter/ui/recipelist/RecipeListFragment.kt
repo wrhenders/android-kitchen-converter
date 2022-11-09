@@ -47,6 +47,7 @@ class RecipeListFragment : Fragment() {
         }
         binding.recyclerRecipeList.adapter = adapter
 
+        
         binding.searchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?):Boolean {
                 return false

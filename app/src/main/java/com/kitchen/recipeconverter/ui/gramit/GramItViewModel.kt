@@ -1,9 +1,7 @@
 package com.kitchen.recipeconverter.ui.gramit
 
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.style.UnderlineSpan
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kitchen.recipeconverter.data.Converter
 import com.kitchen.recipeconverter.data.GramItItem
@@ -44,13 +42,11 @@ class GramItViewModel : ViewModel() {
     fun makeReturnString():String{
         var returnString = ""
         val df = DecimalFormat("#.##")
-        Log.d("ParseReturn", "Item List: $itemList")
         for (item in _itemList){
-            Log.d("ParseReturn", "$item")
             if (validityCheck(item)) {
                 val unitType = Converter().getUnitType(item.unit)
                 val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient))
-                returnString += "${df.format(quantity)}g of ${item.ingredient} \n"
+                returnString += "${df.format(quantity)} g ${item.ingredient} \n"
             } else {
                 val builtString =
                     "${df.format(item.quantity?.toDoubleOrNull() ?: "")} ${item.unit} ${item.ingredient} \n"
@@ -59,7 +55,6 @@ class GramItViewModel : ViewModel() {
                 returnString += underlined.toString()
             }
         }
-        Log.d("ParseReturn", "Returning:$returnString")
         return returnString.trim()
     }
 
