@@ -53,8 +53,8 @@ class Converter {
     fun getUnitType(shortUnitType:String?):String{
         when (shortUnitType?.lowercase()) {
             "g", "gram", "grams" -> return GRAMS
-            "t", "teaspoon", "teaspoons" -> return TEASPOONS
-            "T", "tablespoon","tablespoons" -> return TABLESPOONS
+            "t", "tsp", "teaspoon", "teaspoons" -> return TEASPOONS
+            "T", "tbsp","tablespoon","tablespoons" -> return TABLESPOONS
             "oz", "ounce", "ounces" -> return OUNCES
             "c", "cup", "cups" -> return CUPS
         }
