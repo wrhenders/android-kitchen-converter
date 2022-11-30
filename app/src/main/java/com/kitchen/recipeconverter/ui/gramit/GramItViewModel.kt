@@ -65,6 +65,7 @@ class GramItViewModel : ViewModel() {
     }
 
     fun parseRecipeString(recipeText: String) {
+        if (itemList.size > 0) clearItems()
         if(recipeText.isBlank()) return
         _rawRecipeString = recipeText
         val recipeLines = recipeText.lines().filter { it.isNotEmpty() }
