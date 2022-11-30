@@ -2,6 +2,7 @@ package com.kitchen.recipeconverter.ui.gramit
 
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kitchen.recipeconverter.data.Converter
 import com.kitchen.recipeconverter.data.GramItItem
@@ -15,6 +16,7 @@ class GramItViewModel : ViewModel() {
 
     private val ingredientList = IngredientList().getList()
 
+    private val converter = Converter()
 
     private var _rawRecipeString: String = ""
     val rawRecipeString get() = _rawRecipeString
@@ -43,22 +45,27 @@ class GramItViewModel : ViewModel() {
         var returnString = ""
         val df = DecimalFormat("#.##")
         for (item in _itemList){
+            Log.d("Parser", "Item: $item")
             if (validityCheck(item)) {
                 val unitType = Converter().getUnitType(item.unit)
                 val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient))
                 returnString += "${df.format(quantity)} g ${item.ingredient} \n"
             } else {
-                val builtString =
-                    "${df.format(item.quantity?.toDoubleOrNull() ?: "")} ${item.unit} ${item.ingredient} \n"
-                val underlined = SpannableString(builtString)
-                underlined.setSpan(UnderlineSpan(), 0, builtString.length,0)
-                returnString += underlined.toString()
+                val quantity = item.quantity?.toDoubleOrNull() ?: ""
+                val builtString = if (quantity == "") {
+                    "$quantity ${item.unit} ${item.ingredient} \n"
+                } else {
+                    "${df.format(quantity)} ${item.unit} ${item.ingredient} \n"
+                }
+
+                returnString += builtString
             }
         }
         return returnString.trim()
     }
 
     fun parseRecipeString(recipeText: String) {
+        Log.d("Parser", "raw: $recipeText")
         if(recipeText.isBlank()) return
         _rawRecipeString = recipeText
         val recipeLines = recipeText.split('\n')
@@ -84,6 +91,7 @@ class GramItViewModel : ViewModel() {
             if (i in itemList.indices) _itemList[i] = parsedItem
             else _itemList.add(parsedItem)
         }
+        Log.d("Parser", "Out: $_itemList")
     }
 
     private fun validityCheck(item: GramItItem): Boolean {
@@ -97,13 +105,21 @@ class GramItViewModel : ViewModel() {
     }
 
     private fun parseQuantity(quantity: String) : String {
-        quantity.toDoubleOrNull() ?: return ""
-        return quantity
+        val parsedQuantity = if (quantity.toDoubleOrNull() == null) {
+            val numbers = quantity.map { num ->
+                converter.convertToDecimal(num.toString())
+            }
+            numbers.sum().toString()
+        } else {
+            quantity
+        }
+        return parsedQuantity
     }
 
     private fun parseUnit(unit: String) : String {
-        if (Converter().getUnitType(unit).isEmpty()) return ""
-        return unit
+        val parsedUnit = converter.getGramItUnit(unit)
+        if (parsedUnit.isEmpty()) return ""
+        return parsedUnit
     }
 
     private fun parseIngredient(ingredient: String) : Boolean {

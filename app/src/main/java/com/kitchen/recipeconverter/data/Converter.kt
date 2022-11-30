@@ -9,13 +9,65 @@ class Converter {
     private val OUNCES = "Ounces"
     private val TABLESPOONS = "Tablespoons"
 
+    private val fractions = arrayOf(
+        "\u00B9\u2075/\u2081\u2086",  // 15/16
+        "\u215E",                     // 7/8
+        "\u00B9\u00B3/\u2081\u2086",  // 13/16
+        "\u00BE",                     // 3/4
+        "\u00B9\u00B9/\u2081\u2086",  // 11/16
+        "\u215D",                     // 5/8
+        "\u2079/\u2081\u2086",        // 9/16
+        "\u00BD",                     // 1/2
+        "\u2077/\u2081\u2086",        // 7/16
+        "\u215C",                     // 3/8
+        "\u2075/\u2081\u2086",        // 5/16
+        "\u00BC",                     // 1/4
+        "\u00B3/\u2081\u2086",        // 3/16
+        "\u215B",                     // 1/8
+        "\u00B9/\u2081\u2086",        // 1/16
+    )
+
+    fun convertToDecimal(fractionString: String) : Double {
+        when (fractionString) {
+            "\u00B9\u2075/\u2081\u2086" -> return 15/16.0
+            "\u215E" -> return 7/8.0
+            "\u00B9\u00B3/\u2081\u2086" -> return 13/16.0
+            "\u00BE" -> return 3/4.0
+            "\u00B9\u00B9/\u2081\u2086" -> return 11/16.0
+            "\u215D" -> return 5/8.0
+            "\u2079/\u2081\u2086" -> return 9/16.0
+            "\u00BD" -> return 1/2.0
+            "\u2077/\u2081\u2086" -> return 7/16.0
+            "\u215C" -> return 3/8.0
+            "\u2075/\u2081\u2086" -> return 5/16.0
+            "\u00BC" -> return 1/4.0
+            "\u00B3/\u2081\u2086" -> return 3/16.0
+            "\u215B" -> return 1/8.0
+            "\u00B9/\u2081\u2086" -> return 1/16.0
+            "\u2153" -> return 1/3.0
+            "\u2154" -> return 2/3.0
+        }
+        return fractionString.toDoubleOrNull() ?: 0.0
+    }
+
     fun getUnitType(shortUnitType:String?):String{
-        when (shortUnitType) {
-            "g" -> return GRAMS
-            "t" -> return TEASPOONS
-            "T" -> return TABLESPOONS
-            "oz" -> return OUNCES
-            "c" -> return CUPS
+        when (shortUnitType?.lowercase()) {
+            "g", "gram", "grams" -> return GRAMS
+            "t", "teaspoon", "teaspoons" -> return TEASPOONS
+            "T", "tablespoon","tablespoons" -> return TABLESPOONS
+            "oz", "ounce", "ounces" -> return OUNCES
+            "c", "cup", "cups" -> return CUPS
+        }
+        return ""
+    }
+
+    fun getGramItUnit(unitString:String?):String {
+        when(getUnitType(unitString)) {
+            GRAMS -> return "g"
+            TEASPOONS -> return "t"
+            TABLESPOONS -> return "T"
+            OUNCES -> return "oz"
+            CUPS -> return "c"
         }
         return ""
     }
