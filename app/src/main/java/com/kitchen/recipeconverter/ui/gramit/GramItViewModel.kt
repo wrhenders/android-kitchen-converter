@@ -46,31 +46,30 @@ class GramItViewModel : ViewModel() {
         val df = DecimalFormat("#.##")
         for (item in _itemList){
             Log.d("Parser", "Item: $item")
-            if (validityCheck(item)) {
-                val unitType = Converter().getUnitType(item.unit)
+            returnString += if (validityCheck(item)) {
+                val unitType = converter.getUnitType(item.unit)
                 val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient))
-                returnString += "${df.format(quantity)} g ${item.ingredient} \n"
+                "${df.format(quantity)} g ${item.ingredient} \n"
             } else {
                 val quantity = item.quantity?.toDoubleOrNull() ?: ""
                 val builtString = if (quantity == "") {
-                    "$quantity ${item.unit} ${item.ingredient} \n"
+                    "? ${item.unit} ${item.ingredient} \n"
                 } else {
                     "${df.format(quantity)} ${item.unit} ${item.ingredient} \n"
                 }
 
-                returnString += builtString
+                builtString
             }
         }
         return returnString.trim()
     }
 
     fun parseRecipeString(recipeText: String) {
-        Log.d("Parser", "raw: $recipeText")
         if(recipeText.isBlank()) return
         _rawRecipeString = recipeText
-        val recipeLines = recipeText.split('\n')
+        val recipeLines = recipeText.lines().filter { it.isNotEmpty() }
         for ((i, line) in recipeLines.withIndex()){
-            val items = line.split(' ')
+            val items = line.split("\\s".toRegex())
             var parsedItem = GramItItem("","","")
             if(items.size < 2) {
                 if(i in itemList.indices) {
@@ -79,13 +78,19 @@ class GramItViewModel : ViewModel() {
                 continue
             }
             val quantity = items[0]
-            val parsedQuantity = parseQuantity(quantity)
+            var parsedQuantity = parseQuantity(quantity)
             parsedItem = if(items.size == 2) {
                 GramItItem(parsedQuantity, "", items[1])
             } else {
-                val unit = items[1]
+                var unitLocation = 1
+                if (converter.convertToDecimal(items[unitLocation]) > 0) {
+                    parsedQuantity = (parsedQuantity.toDouble() + parseQuantity(items[unitLocation]).toDouble()).toString()
+                    unitLocation += 1
+                }
+                val unit = items[unitLocation]
                 val parsedUnit = parseUnit(unit)
-                val ingredient = items.slice(2 until items.size).joinToString(" ")
+                Log.d("Parse", "items: $items")
+                val ingredient = items.slice(unitLocation + 1 until items.size).joinToString(" ")
                 GramItItem(parsedQuantity, parsedUnit, ingredient)
             }
             if (i in itemList.indices) _itemList[i] = parsedItem
@@ -97,7 +102,7 @@ class GramItViewModel : ViewModel() {
     private fun validityCheck(item: GramItItem): Boolean {
         item.quantity?.toDoubleOrNull() ?: return false
 
-        if (Converter().getUnitType(item.unit).isEmpty()) return false
+        if (converter.getUnitType(item.unit).isEmpty()) return false
 
         if (item.ingredient !in getIngredientListNames()) return false
 
@@ -106,10 +111,16 @@ class GramItViewModel : ViewModel() {
 
     private fun parseQuantity(quantity: String) : String {
         val parsedQuantity = if (quantity.toDoubleOrNull() == null) {
+            val divideChar = quantity.indexOf("/")
             val numbers = quantity.map { num ->
                 converter.convertToDecimal(num.toString())
             }
-            numbers.sum().toString()
+            if (divideChar > 0) {
+                val fraction = numbers.slice(0 until divideChar).sum() / numbers.slice(divideChar + 1..numbers.lastIndex).sum()
+                fraction.toString()
+            } else {
+                numbers.sum().toString()
+            }
         } else {
             quantity
         }
@@ -118,7 +129,7 @@ class GramItViewModel : ViewModel() {
 
     private fun parseUnit(unit: String) : String {
         val parsedUnit = converter.getGramItUnit(unit)
-        if (parsedUnit.isEmpty()) return ""
+        if (parsedUnit.isEmpty()) return unit
         return parsedUnit
     }
 
