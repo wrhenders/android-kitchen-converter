@@ -48,8 +48,8 @@ class GramItViewModel : ViewModel() {
             Log.d("Parser", "Item: $item")
             returnString += if (validityCheck(item)) {
                 val unitType = converter.getUnitType(item.unit)
-                val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient)) * (item.quantity?.toInt()
-                    ?: 1)
+                val quantity = convertToGramsMultiplier(unitType, findIngredient(item.ingredient)) * (item.quantity?.toDouble()
+                    ?: 1.0)
                 "${df.format(quantity)} g ${item.ingredient} \n"
             } else {
                 val quantity = item.quantity?.toDoubleOrNull() ?: ""
