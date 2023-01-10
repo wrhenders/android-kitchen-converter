@@ -1,7 +1,5 @@
 package com.kitchen.recipeconverter.ui.gramit
 
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kitchen.recipeconverter.data.Converter

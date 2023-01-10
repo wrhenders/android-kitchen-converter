@@ -35,6 +35,14 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         val ingredientNames = IngredientList().getList().map{ing->ing.name}
     }
 
+    override fun getItemId(position: Int): Long {
+        return itemsList[position].id
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.gramit_ingredient, parent, false)
@@ -51,7 +59,6 @@ class GramItAdapter(private val itemsList: List<GramItItem>,
         holder.unitText.setText(itemsList[position].unit.toString())
         holder.ingredientText.setText(itemsList[position].ingredient.toString())
         Log.d("updating","bind to list: $itemsList")
-
 
         fun onClick() {
             val currentItem =

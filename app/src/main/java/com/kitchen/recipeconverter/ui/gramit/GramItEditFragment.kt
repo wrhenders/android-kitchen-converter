@@ -44,6 +44,7 @@ class GramItEditFragment : Fragment() {
             viewModel.editList(position, item)
             Log.d("OutsideClick", "${viewModel.itemList[position]}")
         }
+        recyclerAdapter.setHasStableIds(true)
         binding.recyclerView.adapter = recyclerAdapter
         binding.floatingActionButton.setOnClickListener {
             viewModel.addEmptyItem()
