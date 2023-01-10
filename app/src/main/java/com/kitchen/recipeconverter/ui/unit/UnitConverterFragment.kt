@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
+import com.kitchen.recipeconverter.data.hideKeyboard
 import com.kitchen.recipeconverter.databinding.FragmentUnitConverterBinding
 
 
@@ -50,10 +51,12 @@ class UnitConverterFragment : Fragment() {
         binding.topAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
              viewModel.selectedConvertFrom = binding.topAutoCompleteTextView.text.toString()
             makeReturnText()
+            hideKeyboard()
         }
         binding.bottomAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
             viewModel.selectedConvertTo = binding.bottomAutoCompleteTextView.text.toString()
             makeReturnText()
+            hideKeyboard()
         }
 
     }
