@@ -51,10 +51,13 @@ class Converter {
     }
 
     fun getUnitType(shortUnitType:String?):String{
+        if (shortUnitType == "T") {
+            return TABLESPOONS
+        }
         when (shortUnitType?.lowercase()) {
             "g", "gram", "grams" -> return GRAMS
             "t", "tsp", "teaspoon", "teaspoons" -> return TEASPOONS
-            "T", "tbsp","tablespoon","tablespoons" -> return TABLESPOONS
+            "tbsp","tablespoon","tablespoons" -> return TABLESPOONS
             "oz", "ounce", "ounces" -> return OUNCES
             "c", "cup", "cups" -> return CUPS
         }
