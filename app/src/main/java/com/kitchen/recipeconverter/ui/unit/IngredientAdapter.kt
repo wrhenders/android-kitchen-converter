@@ -27,7 +27,8 @@ class IngredientAdapter( private val onItemClicked: (Ingredient)->Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        return IngredientViewHolder(IngredientItemBinding.inflate(LayoutInflater.from(parent.context)))
+        val binding = IngredientItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return IngredientViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
@@ -39,10 +40,11 @@ class IngredientAdapter( private val onItemClicked: (Ingredient)->Unit) :
             selectedItem = current
             notifyDataSetChanged()
         }
+
         if(selectedItem == current) {
-            holder.cardView.setBackgroundColor(Color.parseColor("grey"))
+            holder.cardView.setCardBackgroundColor(Color.parseColor("grey"))
         } else {
-            holder.cardView.setBackgroundColor(Color.parseColor("white"))
+            holder.cardView.setCardBackgroundColor(Color.parseColor("white"))
         }
     }
 
