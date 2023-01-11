@@ -6,39 +6,56 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kitchen.recipeconverter.R
 import com.kitchen.recipeconverter.data.Ingredient
+import com.kitchen.recipeconverter.data.recipe.Recipe
+import com.kitchen.recipeconverter.databinding.IngredientItemBinding
 
-class IngredientAdapter( private val ingredientList: List<Ingredient>,
-                         private val onItemClicked: (Ingredient)->Unit) :
-    RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
-    private var selectedItemPosition: Int? = null
+class IngredientAdapter( private val onItemClicked: (Ingredient)->Unit) :
+    ListAdapter<Ingredient, IngredientAdapter.IngredientViewHolder>(DiffCallback) {
+    private var selectedItem: Ingredient? = null
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.ingredient_text_view)
-        val cardView: CardView = view.findViewById(R.id.card_view)
+    class IngredientViewHolder(private var binding: IngredientItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+        val cardView: CardView = binding.cardView
+        fun bind(ingredient: Ingredient) {
+            binding.ingredientTextView.text = ingredient.name
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.ingredient_item, parent, false)
-        return ViewHolder(adapterLayout)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
+        return IngredientViewHolder(IngredientItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = ingredientList[position].name
+    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+        val current = getItem(position)
+        holder.bind(current)
+
         holder.itemView.setOnClickListener {
-            onItemClicked(ingredientList[holder.adapterPosition])
-            selectedItemPosition = holder.adapterPosition
+            onItemClicked(current)
+            selectedItem = current
             notifyDataSetChanged()
         }
-        if(selectedItemPosition == position) {
+        if(selectedItem == current) {
             holder.cardView.setBackgroundColor(Color.parseColor("grey"))
         } else {
             holder.cardView.setBackgroundColor(Color.parseColor("white"))
         }
     }
 
-    override fun getItemCount() = ingredientList.size
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<Ingredient>() {
+            override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
+                return oldItem === newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
+                return oldItem == newItem
+            }
+        }
+
+    }
 }
